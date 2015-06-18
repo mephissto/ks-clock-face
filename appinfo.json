@@ -1,19 +1,24 @@
 {
-  "uuid": "25becbb7-c0bc-4180-82b6-b36f1bf894c7",
-  "shortName": "KS Original",
-  "longName": "KS Original",
-  "companyName": "Chris Lewis",
-  "versionCode": 2,
-  "versionLabel": "1.1",
-  "sdkVersion": "3",
-  "targetPlatforms": ["basalt"],
-  "watchapp": {
-    "watchface": true
-  },
-  "appKeys": {
-    "dummy": 0
-  },
-  "resources": {
-    "media": []
-  }
+    "appKeys": {
+        "dummy": 0
+    },
+    "capabilities": [
+        ""
+    ],
+    "companyName": "mephissto",
+    "longName": "KS Moded",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "KS Moded",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "dfb684bf-729e-4b74-842f-418f0397a4e2",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
 }

@@ -4,7 +4,7 @@
 #define ANTIALIASING true
 
 #define HAND_MARGIN  10
-#define FINAL_RADIUS 55
+#define FINAL_RADIUS 65
 
 #define ANIMATION_DURATION 500
 #define ANIMATION_DELAY    600
@@ -16,9 +16,11 @@ typedef struct {
 
 static Window *s_main_window;
 static Layer *s_canvas_layer;
+static TextLayer *s_date_layer;
 
 static GPoint s_center;
 static Time s_last_time, s_anim_time;
+static char s_date_buffer[] = "00";
 static int s_radius = 0, s_anim_hours_60 = 0, s_color_channels[3];
 static bool s_animating = false;
 
@@ -30,6 +32,7 @@ static void animation_started(Animation *anim, void *context) {
 
 static void animation_stopped(Animation *anim, bool stopped, void *context) {
   s_animating = false;
+  text_layer_set_text(s_date_layer, s_date_buffer);
 }
 
 static void animate(int duration, int delay, AnimationImplementation *implementation, bool handlers) {
@@ -54,11 +57,12 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   s_last_time.hours = tick_time->tm_hour;
   s_last_time.hours -= (s_last_time.hours > 12) ? 12 : 0;
   s_last_time.minutes = tick_time->tm_min;
+  strftime(s_date_buffer, sizeof("00"), "%e", tick_time);
 
   for(int i = 0; i < 3; i++) {
     s_color_channels[i] = rand() % 256;
   }
-
+  
   // Redraw
   if(s_canvas_layer) {
     layer_mark_dirty(s_canvas_layer);
@@ -126,9 +130,16 @@ static void window_load(Window *window) {
   GRect window_bounds = layer_get_bounds(window_layer);
 
   s_center = grect_center_point(&window_bounds);
+  
+  s_date_layer = text_layer_create(GRect(s_center.x + 40, s_center.y - 10, 20, 20));
+  text_layer_set_background_color(s_date_layer, GColorClear);
+  text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
 
   s_canvas_layer = layer_create(window_bounds);
   layer_set_update_proc(s_canvas_layer, update_proc);
+  
+  layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer));
   layer_add_child(window_layer, s_canvas_layer);
 }
 
