@@ -6,7 +6,7 @@
 #define HAND_MARGIN  15
 #define FINAL_RADIUS 65
 #define INDICATOR_SIZE 6
-#define INDICATOR_OFFSET 2
+#define INDICATOR_OFFSET 4
 
 #define ANIMATION_DURATION 500
 #define ANIMATION_DELAY    600
@@ -128,17 +128,75 @@ static void update_proc(Layer *layer, GContext *ctx) {
   }
   
   // Draw indicators
-  if (COLORS) {
-    graphics_context_set_stroke_color(ctx, GColorFromRGB(s_color_channels[0], s_color_channels[1], s_color_channels[2]));
-  }
-    // SOUTH
-  graphics_draw_line(ctx, GPoint(s_center.x, s_center.y + s_radius + INDICATOR_OFFSET), GPoint(s_center.x, s_center.y + s_radius + INDICATOR_OFFSET - INDICATOR_SIZE));
-    // NORTH
-  graphics_draw_line(ctx, GPoint(s_center.x, s_center.y - s_radius - INDICATOR_OFFSET), GPoint(s_center.x, s_center.y - s_radius - INDICATOR_OFFSET + INDICATOR_SIZE));
-    // WEST
-  graphics_draw_line(ctx, GPoint(s_center.x - s_radius - INDICATOR_OFFSET, s_center.y), GPoint(s_center.x - s_radius - INDICATOR_OFFSET + INDICATOR_SIZE, s_center.y));
-    // EAST
-  graphics_draw_line(ctx, GPoint(s_center.x + s_radius + INDICATOR_OFFSET, s_center.y), GPoint(s_center.x + s_radius + INDICATOR_OFFSET - INDICATOR_SIZE, s_center.y));
+  float indicator_angle;
+  int16_t from_x, to_x, from_y, to_y;
+    // 6
+  graphics_draw_line(ctx, GPoint(s_center.x, s_center.y + s_radius), GPoint(s_center.x, s_center.y + s_radius - INDICATOR_SIZE));
+    // 0
+  graphics_draw_line(ctx, GPoint(s_center.x, s_center.y - s_radius), GPoint(s_center.x, s_center.y - s_radius + INDICATOR_SIZE));
+    // 9
+  graphics_draw_line(ctx, GPoint(s_center.x - s_radius, s_center.y), GPoint(s_center.x - s_radius + INDICATOR_SIZE, s_center.y));
+    // 3
+  graphics_draw_line(ctx, GPoint(s_center.x + s_radius, s_center.y), GPoint(s_center.x + s_radius - INDICATOR_SIZE, s_center.y));
+  // smaller stroke for other indicator
+  graphics_context_set_stroke_width(ctx, 2);
+  graphics_context_set_stroke_color(ctx, GColorBlack);
+    // 1
+  indicator_angle = TRIG_MAX_ANGLE * 1 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 2
+  indicator_angle = TRIG_MAX_ANGLE * 2 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 4
+  indicator_angle = TRIG_MAX_ANGLE * 4 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 5
+  indicator_angle = TRIG_MAX_ANGLE * 5 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 7
+  indicator_angle = TRIG_MAX_ANGLE * 7 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 8
+  indicator_angle = TRIG_MAX_ANGLE * 8 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 10
+  indicator_angle = TRIG_MAX_ANGLE * 10 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
+    // 11
+  indicator_angle = TRIG_MAX_ANGLE * 11 / 12;
+  from_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.x;
+  to_x = (int16_t)(sin_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.x;
+  from_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET) / TRIG_MAX_RATIO) + s_center.y;
+  to_y = (int16_t)(-cos_lookup(indicator_angle) * (int32_t)(s_radius - INDICATOR_OFFSET + INDICATOR_SIZE) / TRIG_MAX_RATIO) + s_center.y;
+  graphics_draw_line(ctx, GPoint(from_x, from_y), GPoint(to_x,to_y));
 }
 
 static void window_load(Window *window) {
@@ -147,7 +205,7 @@ static void window_load(Window *window) {
 
   s_center = grect_center_point(&window_bounds);
   
-  s_date_layer = text_layer_create(GRect(s_center.x + 38, s_center.y - 11, 20, 20));
+  s_date_layer = text_layer_create(GRect(s_center.x + 35, s_center.y - 11, 20, 20));
   //s_date_layer = text_layer_create(GRect(s_center.x-10, 148, 20, 20));
   text_layer_set_background_color(s_date_layer, GColorClear);
   text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
