@@ -18,7 +18,7 @@ typedef struct {
 
 static Window *s_main_window;
 static Layer *s_canvas_layer;
-static TextLayer *s_date_layer;
+static TextLayer *s_date_layer, *s_date_layer_bg_left, *s_date_layer_bg_right, *s_date_layer_bg_top, *s_date_layer_bg_bottom;
 
 static GPoint s_center;
 static Time s_last_time, s_anim_time;
@@ -35,6 +35,10 @@ static void animation_started(Animation *anim, void *context) {
 static void animation_stopped(Animation *anim, bool stopped, void *context) {
   s_animating = false;
   text_layer_set_text(s_date_layer, s_date_buffer);
+  text_layer_set_text(s_date_layer_bg_left, s_date_buffer);
+  text_layer_set_text(s_date_layer_bg_right, s_date_buffer);
+  text_layer_set_text(s_date_layer_bg_top, s_date_buffer);
+  text_layer_set_text(s_date_layer_bg_bottom, s_date_buffer);
 }
 
 static void animate(int duration, int delay, AnimationImplementation *implementation, bool handlers) {
@@ -210,10 +214,40 @@ static void window_load(Window *window) {
   text_layer_set_background_color(s_date_layer, GColorClear);
   text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
+  
+  // date background
+    // Left
+  s_date_layer_bg_left = text_layer_create(GRect(s_center.x + 34, s_center.y - 11, 20, 20));
+  text_layer_set_background_color(s_date_layer_bg_left, GColorClear);
+  text_layer_set_font(s_date_layer_bg_left, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text_alignment(s_date_layer_bg_left, GTextAlignmentCenter);
+  text_layer_set_text_color(s_date_layer_bg_left, GColorBlack);
+    // Right
+  s_date_layer_bg_right = text_layer_create(GRect(s_center.x + 36, s_center.y - 11, 20, 20));
+  text_layer_set_background_color(s_date_layer_bg_right, GColorClear);
+  text_layer_set_font(s_date_layer_bg_right, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text_alignment(s_date_layer_bg_right, GTextAlignmentCenter);
+  text_layer_set_text_color(s_date_layer_bg_right, GColorBlack);
+    // Top
+  s_date_layer_bg_top = text_layer_create(GRect(s_center.x + 35, s_center.y - 12, 20, 20));
+  text_layer_set_background_color(s_date_layer_bg_top, GColorClear);
+  text_layer_set_font(s_date_layer_bg_top, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text_alignment(s_date_layer_bg_top, GTextAlignmentCenter);
+  text_layer_set_text_color(s_date_layer_bg_top, GColorBlack);
+    // Bottom
+  s_date_layer_bg_bottom = text_layer_create(GRect(s_center.x + 35, s_center.y - 10, 20, 20));
+  text_layer_set_background_color(s_date_layer_bg_bottom, GColorClear);
+  text_layer_set_font(s_date_layer_bg_bottom, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  text_layer_set_text_alignment(s_date_layer_bg_bottom, GTextAlignmentCenter);
+  text_layer_set_text_color(s_date_layer_bg_bottom, GColorBlack);
 
   s_canvas_layer = layer_create(window_bounds);
   layer_set_update_proc(s_canvas_layer, update_proc);
   
+  layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer_bg_left));
+  layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer_bg_right));
+  layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer_bg_top));
+  layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer_bg_bottom));
   layer_add_child(s_canvas_layer, text_layer_get_layer(s_date_layer));
   layer_add_child(window_layer, s_canvas_layer);
 }
